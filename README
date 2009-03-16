@@ -1,0 +1,75 @@
+crcpp
+A CRC preprocessor: inserts CRC-32 checksums into C or C++ code.
+
+1. Status
+
+I've tried this on Windows and Mac platforms.  It may even compile on others.
+
+2. Download and Source Repository
+
+The source and executables are available on my github.com page:
+http://github.com/zach/crcpp
+
+Here is a direct link to a .zip archive of the current release:
+http://github.com/zach/crcpp/zipball/master
+
+3. Installing from source
+
+A Win32 executable as well as a directly-compilable .c version is available at the repository.
+
+On other platforms, you'll need to install from source, using Ragel:
+
+http://www.cs.queensu.ca/~thurston/ragel/
+
+And you'll need zlib if you don't have it already available:
+
+http://zlib.net/
+
+Use Ragel to compile crcpp.rl into crcpp.c:
+
+    ragel crcpp.rl
+
+Then compile the resulting .c file with the zlib library, for instance like so:
+
+    gcc -o crcpp crcpp.c -lz
+
+3. License
+
+The files in this project are licensed under an MIT-style license as explained in
+the LICENSE file.
+
+4. Rationale
+
+I know that it isn't so hard to do this in Perl or a similar language.  As an example
+of a very flexible cpp replacement in Perl, the filepp project is worth looking at.
+
+But Ragel compiled to C produces a very fast executable.  For a tool designed to run
+on every file in a very large project before it is compiled, that is essential.
+
+Finally, this preprocessor has the very-appreciated functionality that it will leave
+a file alone (not write or touch it at all) if no updates need to be made.  Not only
+does that account for the overwhelming majority of cases in which it's used (and so
+spare the disk access that would otherwise occur), it also keeps your source control
+and dates correct on the source files it's used on.
+
+4. Limitations
+
+String concatenation (a string broken up into multiple strings separated by newline)
+do not work.  However, escaped newlines should.
+
+Errors are hardly reported on.
+
+If you put anything besides a hex number in the place of the CRC value, it will not be
+updated or flagged for an error.
+
+5. Possibilities for Modification
+
+This source can easily be adapted to do other tasks, like different hash algorithms,
+checking with an external list to detect hash collisions, or more elaborate things
+such as flexible name-to-asset mapping or lookups into an asset database.
+
+6. Contact
+
+Please email me at zach@zachbaker.com if you have any questions or suggestions.
+
+-- Zach Baker.
